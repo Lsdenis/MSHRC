@@ -1,6 +1,11 @@
 using System;
 using System.Web;
 using Microsoft.Web.Infrastructure.DynamicModuleHelper;
+using MSHRCS.BusinessLogic.DataModel;
+using MSHRCS.BusinessLogic.Repository;
+using MSHRCS.BusinessLogic.Services.Classes;
+using MSHRCS.BusinessLogic.Services.Interfaces;
+using MSHRCS.BusinessLogic.UnitOfWork;
 using MSHRCS.Presentation;
 using Ninject;
 using Ninject.Web.Common;
@@ -60,6 +65,28 @@ namespace MSHRCS.Presentation
 		/// <param name="kernel">The kernel.</param>
 		private static void RegisterServices(IKernel kernel)
 		{
+			kernel.Bind<IRepository<AcademicDiscipline>>().To<BaseRepository<AcademicDiscipline>>().InRequestScope();
+			kernel.Bind<IRepository<Cabinet>>().To<BaseRepository<Cabinet>>().InRequestScope();
+			kernel.Bind<IRepository<GDCabinet>>().To<BaseRepository<GDCabinet>>().InRequestScope();
+			kernel.Bind<IRepository<GDTeacher>>().To<BaseRepository<GDTeacher>>().InRequestScope();
+			kernel.Bind<IRepository<Group>>().To<BaseRepository<Group>>().InRequestScope();
+			kernel.Bind<IRepository<GroupDiscipline>>().To<BaseRepository<GroupDiscipline>>().InRequestScope();
+			kernel.Bind<IRepository<Lesson>>().To<BaseRepository<Lesson>>().InRequestScope();
+			kernel.Bind<IRepository<Teacher>>().To<BaseRepository<Teacher>>().InRequestScope();
+			kernel.Bind<IRepository<User>>().To<BaseRepository<User>>().InRequestScope();
+
+			kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
+			kernel.Bind<MSHRCSchedulerContext>().ToSelf().InRequestScope();
+
+			kernel.Bind<IAcademicDisciplineService>().To<AcademicDisciplineService>().InRequestScope();
+			kernel.Bind<ICabinetService>().To<CabinetService>().InRequestScope();
+			kernel.Bind<IGDCabinetService>().To<GDCabinetService>().InRequestScope();
+			kernel.Bind<IGDTeacherService>().To<GDTeacherService>().InRequestScope();
+			kernel.Bind<IGroupDisciplineService>().To<GroupDisciplineService>().InRequestScope();
+			kernel.Bind<IGroupService>().To<GroupService>().InRequestScope();
+			kernel.Bind<ILessonService>().To<LessonsService>().InRequestScope();
+			kernel.Bind<ITeacherService>().To<TeacherService>().InRequestScope();
+			kernel.Bind<IUserService>().To<UserService>().InRequestScope();
 		}
 	}
 }

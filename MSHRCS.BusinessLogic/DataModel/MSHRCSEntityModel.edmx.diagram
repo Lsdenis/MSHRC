@@ -22,7 +22,7 @@
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GDTeachers_Teachers" ManuallyRouted="false" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" ManuallyRouted="false" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_Groups_Teachers" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="MSHRCSchedulerModel.Lessons" Width="1.5" PointX="4.86615917871993" PointY="25.055572446927229" />
+        <EntityTypeShape EntityType="MSHRCSchedulerModel.Lesson" Width="1.5" PointX="0.75" PointY="8.75" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GDCabinets_Lessons" />
       </Diagram>
     </edmx:Diagrams>

@@ -296,9 +296,9 @@
             <End Role="Teachers" EntitySet="Teachers" />
             <End Role="Groups" EntitySet="Groups" />
           </AssociationSet>
-          <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Lessons" />
+          <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Lesson" />
           <AssociationSet Name="FK_GDCabinets_Lessons" Association="MSHRCSchedulerModel.FK_GDCabinets_Lessons">
-            <End Role="Lessons" EntitySet="Lessons" />
+            <End Role="Lesson" EntitySet="Lessons" />
             <End Role="GDCabinet" EntitySet="GDCabinets" />
           </AssociationSet>
         </EntityContainer>
@@ -332,7 +332,7 @@
           <NavigationProperty Name="Cabinet" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Cabinets" FromRole="GDCabinets" ToRole="Cabinets" />
           <NavigationProperty Name="GroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines" FromRole="GDCabinets" ToRole="GroupDisciplines" />
           <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Teachers" FromRole="GDCabinets" ToRole="Teachers" />
-          <NavigationProperty Name="Lessons" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="GDCabinet" ToRole="Lessons" />
+          <NavigationProperty Name="Lesson" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="GDCabinet" ToRole="Lesson" />
         </EntityType>
         <EntityType Name="GDTeacher">
           <Key>
@@ -495,7 +495,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Lessons">
+        <EntityType Name="Lesson">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
@@ -503,13 +503,13 @@
           <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Type="Time" Name="StartTime" Nullable="false" Precision="7" />
           <Property Type="Time" Name="EndTime" Nullable="false" Precision="7" />
-          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="Lessons" ToRole="GDCabinet" />
+          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="Lesson" ToRole="GDCabinet" />
         </EntityType>
         <Association Name="FK_GDCabinets_Lessons">
-          <End Type="MSHRCSchedulerModel.Lessons" Role="Lessons" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.Lesson" Role="Lesson" Multiplicity="1" />
           <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Lessons">
+            <Principal Role="Lesson">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="GDCabinet">
@@ -613,7 +613,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Lessons">
-            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Lessons">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Lesson">
               <MappingFragment StoreEntitySet="Lessons">
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
@@ -636,7 +636,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>

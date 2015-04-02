@@ -1,12 +1,11 @@
 ﻿using System;
-using NoTime.BusinessLogic.DataModel;
+using MSHRCS.BusinessLogic.DataModel;
 
-namespace NoTime.BusinessLogic.UnitOfWork
-{    
-    public interface IUnitOfWork : IDisposable
-    {
-		EntityContainer Context { get; }
-		NT_BlogEntities BlogContext { get; }
-        void Commit();        
-    }
+namespace MSHRCS.BusinessLogic.UnitOfWork
+{
+	public interface IUnitOfWork : IDisposable
+	{
+		MSHRCSchedulerContext Context { get; }
+		void Commit();
+	}
 }

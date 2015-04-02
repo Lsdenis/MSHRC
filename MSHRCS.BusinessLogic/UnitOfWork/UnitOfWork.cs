@@ -1,45 +1,32 @@
-﻿using NoTime.BusinessLogic.DataModel;
+﻿using MSHRCS.BusinessLogic.DataModel;
 
-namespace NoTime.BusinessLogic.UnitOfWork
+namespace MSHRCS.BusinessLogic.UnitOfWork
 {
-    public class UnitOfWork : IUnitOfWork
-    {
-		private readonly EntityContainer _context;
-		private readonly NT_BlogEntities _blogContext;
+	public class UnitOfWork : IUnitOfWork
+	{
+		private readonly MSHRCSchedulerContext _context;
 
-		public UnitOfWork(EntityContainer context, NT_BlogEntities blogContext)
-        {
-            _context = context;
-			_blogContext = blogContext;
-        }
-
-		public EntityContainer Context
-        {
-            get { return _context; }
-        }
-
-		public NT_BlogEntities BlogContext
+		public UnitOfWork(MSHRCSchedulerContext context)
 		{
-			get { return _blogContext; }
+			_context = context;
 		}
 
-        public void Commit()
-        {
-            _context.SaveChanges();
-	        _blogContext.SaveChanges();
-        }
-       
-        public void Dispose()
-        {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+		public MSHRCSchedulerContext Context
+		{
+			get { return _context; }
+		}
 
-	        if (_blogContext != null)
-	        {
-		        _blogContext.Dispose();
-	        }
-        }
-    }
+		public void Commit()
+		{
+			_context.SaveChanges();
+		}
+
+		public void Dispose()
+		{
+			if (_context != null)
+			{
+				_context.Dispose();
+			}
+		}
+	}
 }
