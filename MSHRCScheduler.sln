@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSHRCS.Presentation", "MSHRCS.Presentation\MSHRCS.Presentation.csproj", "{5C9516AC-26D1-4CAC-AE49-5567D46D42C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MSHRCS.BusinessLogic", "MSHRCS.BusinessLogic\MSHRCS.BusinessLogic.csproj", "{1F45C373-C851-4ED4-816F-733E57861A63}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5C9516AC-26D1-4CAC-AE49-5567D46D42C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C9516AC-26D1-4CAC-AE49-5567D46D42C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C9516AC-26D1-4CAC-AE49-5567D46D42C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C9516AC-26D1-4CAC-AE49-5567D46D42C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F45C373-C851-4ED4-816F-733E57861A63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F45C373-C851-4ED4-816F-733E57861A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F45C373-C851-4ED4-816F-733E57861A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F45C373-C851-4ED4-816F-733E57861A63}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
