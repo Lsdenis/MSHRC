@@ -1,4 +1,6 @@
-﻿using MSHRCS.BusinessLogic.DataModel;
+﻿using System;
+using System.Collections.Generic;
+using MSHRCS.BusinessLogic.DataModel;
 using MSHRCS.BusinessLogic.Repository;
 using MSHRCS.BusinessLogic.Services.Interfaces;
 
@@ -16,6 +18,16 @@ namespace MSHRCS.BusinessLogic.Services.Classes
 		public User CheckUserExists(int userId, string password)
 		{
 			return _userRepository.FirstOrDefault(user => user.Id == userId && user.Password.Equals(password));
+		}
+
+		public User Get(int userEnum)
+		{
+			return _userRepository.Get(user => user.Id == userEnum);
+		}
+
+		public IEnumerable<User> GetAll()
+		{
+			return _userRepository.GetAll();
 		}
 	}
 }

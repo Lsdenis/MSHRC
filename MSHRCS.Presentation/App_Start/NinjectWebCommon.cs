@@ -7,6 +7,7 @@ using MSHRCS.BusinessLogic.Services.Classes;
 using MSHRCS.BusinessLogic.Services.Interfaces;
 using MSHRCS.BusinessLogic.UnitOfWork;
 using MSHRCS.Presentation;
+using MSHRCS.Presentation.Helpers;
 using Ninject;
 using Ninject.Web.Common;
 
@@ -50,6 +51,9 @@ namespace MSHRCS.Presentation
 				kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
 				RegisterServices(kernel);
+
+				GlobalStoreHelper.Initialize(kernel.Get<IUserService>());
+
 				return kernel;
 			}
 			catch
@@ -86,7 +90,7 @@ namespace MSHRCS.Presentation
 			kernel.Bind<IGroupService>().To<GroupService>().InRequestScope();
 			kernel.Bind<ILessonService>().To<LessonsService>().InRequestScope();
 			kernel.Bind<ITeacherService>().To<TeacherService>().InRequestScope();
-			kernel.Bind<IUserService>().To<UserService>().InRequestScope();
+			kernel.Bind<IUserService>().To<UserService>();
 		}
 	}
 }

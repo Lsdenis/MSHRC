@@ -95,6 +95,7 @@
     <Compile Include="DataModel\User.cs">
       <DependentUpon>MSHRCSEntityModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Enums\LessonTypes.cs" />
     <Compile Include="Enums\UsersEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />

@@ -8,13 +8,16 @@
 
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Custom.css")" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="container col-md-8 col-md-offset-2">
     @Html.Partial("_Header")
-    <div class="body-container">
+    <div>
         @RenderBody()
     </div>
     @Html.Partial("_Footer")
 </body>
+
+@Html.Partial("_JsUrls")
 </html>

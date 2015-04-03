@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using MSHRCS.BusinessLogic;
 using MSHRCS.BusinessLogic.Services.Interfaces;
 using MSHRCS.Presentation.Helpers;
@@ -22,30 +23,29 @@ namespace MSHRCS.Presentation.Controllers
 		[HttpGet]
 		public ActionResult LogIn()
 		{
+			ViewBag.Users = _userService.GetAll();
 			return View();
 		}
 
 		[HttpPost]
 		public JsonResult LogIn(LogInUserViewModel logInUserViewModel)
 		{
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				var password = AuthorizationHelper.GetHashString(logInUserViewModel.Password);
-				var user = _userService.CheckUserExists(logInUserViewModel.UserId, password);
+				return Json(new {success = false, message = Constants.ErrorMessage});
+			}
 
-				if (user == null)
-				{
-					return Json(new { success = false });
-				}
-				else
-				{
-					return Json(new { success = true });
-				}
-			}
-			else
+			var password = AuthorizationHelper.GetHashString(logInUserViewModel.Password);
+			var user = _userService.CheckUserExists(logInUserViewModel.UserId, password);
+
+			if (user == null)
 			{
-				return Json(new { success = false, message = Constants.ErrorMessage });
+				return Json(new { success = false });
 			}
+				
+			FormsAuthentication.SetAuthCookie(user.Id.ToString(), logInUserViewModel.RememberMe);
+			GlobalStoreHelper.SetSession(user);
+			return Json(new { success = true });
 		}
 	}
 }
