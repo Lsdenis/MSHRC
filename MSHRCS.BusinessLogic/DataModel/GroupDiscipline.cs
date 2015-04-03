@@ -17,17 +17,17 @@ namespace MSHRCS.BusinessLogic.DataModel
         public GroupDiscipline()
         {
             this.GDCabinets = new HashSet<GDCabinet>();
+            this.SubstitutingGDCabinets = new HashSet<GDCabinet>();
             this.GDTeachers = new HashSet<GDTeacher>();
         }
     
         public int Id { get; set; }
         public int GroupId { get; set; }
         public int DisciplineId { get; set; }
-        public int InitialHoursNumber { get; set; }
-        public int ActualHoursNumber { get; set; }
     
         public virtual AcademicDiscipline AcademicDiscipline { get; set; }
         public virtual ICollection<GDCabinet> GDCabinets { get; set; }
+        public virtual ICollection<GDCabinet> SubstitutingGDCabinets { get; set; }
         public virtual ICollection<GDTeacher> GDTeachers { get; set; }
         public virtual Group Group { get; set; }
     }

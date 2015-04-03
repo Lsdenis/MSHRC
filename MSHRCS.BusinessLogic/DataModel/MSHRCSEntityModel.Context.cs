@@ -31,9 +31,10 @@ namespace MSHRCS.BusinessLogic.DataModel
         public DbSet<GDTeacher> GDTeachers { get; set; }
         public DbSet<GroupDiscipline> GroupDisciplines { get; set; }
         public DbSet<Group> Groups { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonType> LessonTypes { get; set; }
         public DbSet<sysdiagram> sysdiagrams { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
     }
 }

@@ -13,6 +13,7 @@
           <EntitySet Name="GroupDisciplines" EntityType="MSHRCSchedulerModel.Store.GroupDisciplines" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Groups" EntityType="MSHRCSchedulerModel.Store.Groups" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Store.Lessons" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="LessonTypes" EntityType="MSHRCSchedulerModel.Store.LessonTypes" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="sysdiagrams" EntityType="MSHRCSchedulerModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Teachers" EntityType="MSHRCSchedulerModel.Store.Teachers" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="Users" EntityType="MSHRCSchedulerModel.Store.Users" store:Type="Tables" Schema="dbo" />
@@ -28,12 +29,20 @@
             <End Role="Lessons" EntitySet="Lessons" />
             <End Role="GDCabinets" EntitySet="GDCabinets" />
           </AssociationSet>
-          <AssociationSet Name="FK_GDCabinets_Teachers" Association="MSHRCSchedulerModel.Store.FK_GDCabinets_Teachers">
-            <End Role="Teachers" EntitySet="Teachers" />
+          <AssociationSet Name="FK_GDCabinets_LessonTypes" Association="MSHRCSchedulerModel.Store.FK_GDCabinets_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
+            <End Role="GDCabinets" EntitySet="GDCabinets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDCabinets_SubstituteGroupDisciplines" Association="MSHRCSchedulerModel.Store.FK_GDCabinets_SubstituteGroupDisciplines">
+            <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
             <End Role="GDCabinets" EntitySet="GDCabinets" />
           </AssociationSet>
           <AssociationSet Name="FK_GDTeachers_GroupDisciplines" Association="MSHRCSchedulerModel.Store.FK_GDTeachers_GroupDisciplines">
             <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
+            <End Role="GDTeachers" EntitySet="GDTeachers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDTeachers_LessonTypes" Association="MSHRCSchedulerModel.Store.FK_GDTeachers_LessonTypes">
+            <End Role="LessonTypes" EntitySet="LessonTypes" />
             <End Role="GDTeachers" EntitySet="GDTeachers" />
           </AssociationSet>
           <AssociationSet Name="FK_GDTeachers_Teachers" Association="MSHRCSchedulerModel.Store.FK_GDTeachers_Teachers">
@@ -76,8 +85,9 @@
           <Property Name="GDId" Type="int" Nullable="false" />
           <Property Name="CabinetId" Type="int" Nullable="false" />
           <Property Name="LessonId" Type="int" Nullable="false" />
-          <Property Name="SubstituteTeacherId" Type="int" />
+          <Property Name="SubstituteDGId" Type="int" />
           <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="LessonTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GDTeachers">
           <Key>
@@ -86,6 +96,9 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="GroupDisciplineId" Type="int" Nullable="false" />
           <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="ActualHoursNumber" Type="int" Nullable="false" />
+          <Property Name="InitialHoursNumber" Type="int" Nullable="false" />
+          <Property Name="LessonTypeId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="GroupDisciplines">
           <Key>
@@ -94,8 +107,6 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="GroupId" Type="int" Nullable="false" />
           <Property Name="DisciplineId" Type="int" Nullable="false" />
-          <Property Name="InitialHoursNumber" Type="int" Nullable="false" />
-          <Property Name="ActualHoursNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Groups">
           <Key>
@@ -114,6 +125,13 @@
           <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
           <Property Name="StartTime" Type="time" Nullable="false" />
           <Property Name="EndTime" Type="time" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LessonTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -178,15 +196,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_GDCabinets_Teachers">
-          <End Role="Teachers" Type="MSHRCSchedulerModel.Store.Teachers" Multiplicity="0..1" />
+        <Association Name="FK_GDCabinets_LessonTypes">
+          <End Role="LessonTypes" Type="MSHRCSchedulerModel.Store.LessonTypes" Multiplicity="1" />
           <End Role="GDCabinets" Type="MSHRCSchedulerModel.Store.GDCabinets" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Teachers">
+            <Principal Role="LessonTypes">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="GDCabinets">
-              <PropertyRef Name="SubstituteTeacherId" />
+              <PropertyRef Name="LessonTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDCabinets_SubstituteGroupDisciplines">
+          <End Role="GroupDisciplines" Type="MSHRCSchedulerModel.Store.GroupDisciplines" Multiplicity="0..1" />
+          <End Role="GDCabinets" Type="MSHRCSchedulerModel.Store.GDCabinets" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupDisciplines">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDCabinets">
+              <PropertyRef Name="SubstituteDGId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -199,6 +229,18 @@
             </Principal>
             <Dependent Role="GDTeachers">
               <PropertyRef Name="GroupDisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDTeachers_LessonTypes">
+          <End Role="LessonTypes" Type="MSHRCSchedulerModel.Store.LessonTypes" Multiplicity="1" />
+          <End Role="GDTeachers" Type="MSHRCSchedulerModel.Store.GDTeachers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDTeachers">
+              <PropertyRef Name="LessonTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -261,240 +303,128 @@
           <EntitySet Name="GDTeachers" EntityType="MSHRCSchedulerModel.GDTeacher" />
           <EntitySet Name="GroupDisciplines" EntityType="MSHRCSchedulerModel.GroupDiscipline" />
           <EntitySet Name="Groups" EntityType="MSHRCSchedulerModel.Group" />
+          <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Lesson" />
+          <EntitySet Name="LessonTypes" EntityType="MSHRCSchedulerModel.LessonType" />
           <EntitySet Name="sysdiagrams" EntityType="MSHRCSchedulerModel.sysdiagram" />
           <EntitySet Name="Teachers" EntityType="MSHRCSchedulerModel.Teacher" />
           <EntitySet Name="Users" EntityType="MSHRCSchedulerModel.User" />
           <AssociationSet Name="FK_GroupDisciplines_AcademicDisciplines" Association="MSHRCSchedulerModel.FK_GroupDisciplines_AcademicDisciplines">
-            <End Role="AcademicDisciplines" EntitySet="AcademicDisciplines" />
-            <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
+            <End Role="AcademicDiscipline" EntitySet="AcademicDisciplines" />
+            <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
           </AssociationSet>
           <AssociationSet Name="FK_GDCabinets_Cabinets" Association="MSHRCSchedulerModel.FK_GDCabinets_Cabinets">
-            <End Role="Cabinets" EntitySet="Cabinets" />
-            <End Role="GDCabinets" EntitySet="GDCabinets" />
+            <End Role="Cabinet" EntitySet="Cabinets" />
+            <End Role="GDCabinet" EntitySet="GDCabinets" />
           </AssociationSet>
           <AssociationSet Name="FK_GDCabinets_GroupDisciplines" Association="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines">
-            <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
-            <End Role="GDCabinets" EntitySet="GDCabinets" />
+            <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
+            <End Role="GDCabinet" EntitySet="GDCabinets" />
           </AssociationSet>
-          <AssociationSet Name="FK_GDCabinets_Teachers" Association="MSHRCSchedulerModel.FK_GDCabinets_Teachers">
-            <End Role="Teachers" EntitySet="Teachers" />
-            <End Role="GDCabinets" EntitySet="GDCabinets" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GDTeachers_GroupDisciplines" Association="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines">
-            <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
-            <End Role="GDTeachers" EntitySet="GDTeachers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GDTeachers_Teachers" Association="MSHRCSchedulerModel.FK_GDTeachers_Teachers">
-            <End Role="Teachers" EntitySet="Teachers" />
-            <End Role="GDTeachers" EntitySet="GDTeachers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_GroupDisciplines_Groups" Association="MSHRCSchedulerModel.FK_GroupDisciplines_Groups">
-            <End Role="Groups" EntitySet="Groups" />
-            <End Role="GroupDisciplines" EntitySet="GroupDisciplines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Groups_Teachers" Association="MSHRCSchedulerModel.FK_Groups_Teachers">
-            <End Role="Teachers" EntitySet="Teachers" />
-            <End Role="Groups" EntitySet="Groups" />
-          </AssociationSet>
-          <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Lesson" />
           <AssociationSet Name="FK_GDCabinets_Lessons" Association="MSHRCSchedulerModel.FK_GDCabinets_Lessons">
             <End Role="Lesson" EntitySet="Lessons" />
             <End Role="GDCabinet" EntitySet="GDCabinets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDCabinets_LessonTypes" Association="MSHRCSchedulerModel.FK_GDCabinets_LessonTypes">
+            <End Role="LessonType" EntitySet="LessonTypes" />
+            <End Role="GDCabinet" EntitySet="GDCabinets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDCabinets_SubstituteGroupDisciplines" Association="MSHRCSchedulerModel.FK_GDCabinets_SubstituteGroupDisciplines">
+            <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
+            <End Role="GDCabinet" EntitySet="GDCabinets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDTeachers_GroupDisciplines" Association="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines">
+            <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
+            <End Role="GDTeacher" EntitySet="GDTeachers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDTeachers_LessonTypes" Association="MSHRCSchedulerModel.FK_GDTeachers_LessonTypes">
+            <End Role="LessonType" EntitySet="LessonTypes" />
+            <End Role="GDTeacher" EntitySet="GDTeachers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GDTeachers_Teachers" Association="MSHRCSchedulerModel.FK_GDTeachers_Teachers">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="GDTeacher" EntitySet="GDTeachers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupDisciplines_Groups" Association="MSHRCSchedulerModel.FK_GroupDisciplines_Groups">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Groups_Teachers" Association="MSHRCSchedulerModel.FK_Groups_Teachers">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AcademicDiscipline">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" Nullable="false" MaxLength="50" Unicode="true" FixedLength="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_AcademicDisciplines" FromRole="AcademicDisciplines" ToRole="GroupDisciplines" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Description" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_AcademicDisciplines" FromRole="AcademicDiscipline" ToRole="GroupDiscipline" />
         </EntityType>
         <EntityType Name="Cabinet">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Cabinets" FromRole="Cabinets" ToRole="GDCabinets" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Code" Nullable="false" />
+          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Cabinets" FromRole="Cabinet" ToRole="GDCabinet" />
         </EntityType>
         <EntityType Name="GDCabinet">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="GDId" Type="Int32" Nullable="false" />
-          <Property Name="CabinetId" Type="Int32" Nullable="false" />
-          <Property Name="LessonId" Type="Int32" Nullable="false" />
-          <Property Name="SubstituteTeacherId" Type="Int32" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Cabinet" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Cabinets" FromRole="GDCabinets" ToRole="Cabinets" />
-          <NavigationProperty Name="GroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines" FromRole="GDCabinets" ToRole="GroupDisciplines" />
-          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Teachers" FromRole="GDCabinets" ToRole="Teachers" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="GDId" Nullable="false" />
+          <Property Type="Int32" Name="CabinetId" Nullable="false" />
+          <Property Type="Int32" Name="LessonId" Nullable="false" />
+          <Property Type="Int32" Name="SubstituteDGId" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="0" />
+          <Property Type="Int32" Name="LessonTypeId" Nullable="false" />
+          <NavigationProperty Name="Cabinet" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Cabinets" FromRole="GDCabinet" ToRole="Cabinet" />
+          <NavigationProperty Name="GroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines" FromRole="GDCabinet" ToRole="GroupDiscipline" />
           <NavigationProperty Name="Lesson" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="GDCabinet" ToRole="Lesson" />
+          <NavigationProperty Name="LessonType" Relationship="MSHRCSchedulerModel.FK_GDCabinets_LessonTypes" FromRole="GDCabinet" ToRole="LessonType" />
+          <NavigationProperty Name="SubstitutedGroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDCabinets_SubstituteGroupDisciplines" FromRole="GDCabinet" ToRole="GroupDiscipline" />
         </EntityType>
         <EntityType Name="GDTeacher">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupDisciplineId" Type="Int32" Nullable="false" />
-          <Property Name="TeacherId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" FromRole="GDTeachers" ToRole="GroupDisciplines" />
-          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_GDTeachers_Teachers" FromRole="GDTeachers" ToRole="Teachers" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="GroupDisciplineId" Nullable="false" />
+          <Property Type="Int32" Name="TeacherId" Nullable="false" />
+          <Property Type="Int32" Name="ActualHoursNumber" Nullable="false" />
+          <Property Type="Int32" Name="InitialHoursNumber" Nullable="false" />
+          <Property Type="Int32" Name="LessonTypeId" Nullable="false" />
+          <NavigationProperty Name="GroupDiscipline" Relationship="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" FromRole="GDTeacher" ToRole="GroupDiscipline" />
+          <NavigationProperty Name="LessonType" Relationship="MSHRCSchedulerModel.FK_GDTeachers_LessonTypes" FromRole="GDTeacher" ToRole="LessonType" />
+          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_GDTeachers_Teachers" FromRole="GDTeacher" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="GroupDiscipline">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="GroupId" Type="Int32" Nullable="false" />
-          <Property Name="DisciplineId" Type="Int32" Nullable="false" />
-          <Property Name="InitialHoursNumber" Type="Int32" Nullable="false" />
-          <Property Name="ActualHoursNumber" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="AcademicDiscipline" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_AcademicDisciplines" FromRole="GroupDisciplines" ToRole="AcademicDisciplines" />
-          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines" FromRole="GroupDisciplines" ToRole="GDCabinets" />
-          <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" FromRole="GroupDisciplines" ToRole="GDTeachers" />
-          <NavigationProperty Name="Group" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="GroupDisciplines" ToRole="Groups" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="GroupId" Nullable="false" />
+          <Property Type="Int32" Name="DisciplineId" Nullable="false" />
+          <NavigationProperty Name="AcademicDiscipline" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_AcademicDisciplines" FromRole="GroupDiscipline" ToRole="AcademicDiscipline" />
+          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_GroupDisciplines" FromRole="GroupDiscipline" ToRole="GDCabinet" />
+          <NavigationProperty Name="SubstitutingGDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_SubstituteGroupDisciplines" FromRole="GroupDiscipline" ToRole="GDCabinet" />
+          <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" FromRole="GroupDiscipline" ToRole="GDTeacher" />
+          <NavigationProperty Name="Group" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="GroupDiscipline" ToRole="Group" />
         </EntityType>
         <EntityType Name="Group">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="Int32" Nullable="false" />
-          <Property Name="PeopleCount" Type="Int32" Nullable="false" />
-          <Property Name="CuratorId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="Groups" ToRole="GroupDisciplines" />
-          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Groups" ToRole="Teachers" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Code" Nullable="false" />
+          <Property Type="Int32" Name="PeopleCount" Nullable="false" />
+          <Property Type="Int32" Name="CuratorId" Nullable="false" />
+          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="Group" ToRole="GroupDiscipline" />
+          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Group" ToRole="Teacher" />
         </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="Teacher">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="MiddleName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Teachers" FromRole="Teachers" ToRole="GDCabinets" />
-          <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_Teachers" FromRole="Teachers" ToRole="GDTeachers" />
-          <NavigationProperty Name="Groups" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Teachers" ToRole="Groups" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
-        </EntityType>
-        <Association Name="FK_GroupDisciplines_AcademicDisciplines">
-          <End Role="AcademicDisciplines" Type="MSHRCSchedulerModel.AcademicDiscipline" Multiplicity="1" />
-          <End Role="GroupDisciplines" Type="MSHRCSchedulerModel.GroupDiscipline" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AcademicDisciplines">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupDisciplines">
-              <PropertyRef Name="DisciplineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GDCabinets_Cabinets">
-          <End Role="Cabinets" Type="MSHRCSchedulerModel.Cabinet" Multiplicity="1" />
-          <End Role="GDCabinets" Type="MSHRCSchedulerModel.GDCabinet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Cabinets">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GDCabinets">
-              <PropertyRef Name="CabinetId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GDCabinets_GroupDisciplines">
-          <End Role="GroupDisciplines" Type="MSHRCSchedulerModel.GroupDiscipline" Multiplicity="1" />
-          <End Role="GDCabinets" Type="MSHRCSchedulerModel.GDCabinet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GroupDisciplines">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GDCabinets">
-              <PropertyRef Name="GDId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GDCabinets_Teachers">
-          <End Role="Teachers" Type="MSHRCSchedulerModel.Teacher" Multiplicity="0..1" />
-          <End Role="GDCabinets" Type="MSHRCSchedulerModel.GDCabinet" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teachers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GDCabinets">
-              <PropertyRef Name="SubstituteTeacherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GDTeachers_GroupDisciplines">
-          <End Role="GroupDisciplines" Type="MSHRCSchedulerModel.GroupDiscipline" Multiplicity="1" />
-          <End Role="GDTeachers" Type="MSHRCSchedulerModel.GDTeacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GroupDisciplines">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GDTeachers">
-              <PropertyRef Name="GroupDisciplineId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GDTeachers_Teachers">
-          <End Role="Teachers" Type="MSHRCSchedulerModel.Teacher" Multiplicity="1" />
-          <End Role="GDTeachers" Type="MSHRCSchedulerModel.GDTeacher" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teachers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GDTeachers">
-              <PropertyRef Name="TeacherId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_GroupDisciplines_Groups">
-          <End Role="Groups" Type="MSHRCSchedulerModel.Group" Multiplicity="1" />
-          <End Role="GroupDisciplines" Type="MSHRCSchedulerModel.GroupDiscipline" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Groups">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="GroupDisciplines">
-              <PropertyRef Name="GroupId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Groups_Teachers">
-          <End Role="Teachers" Type="MSHRCSchedulerModel.Teacher" Multiplicity="1" />
-          <End Role="Groups" Type="MSHRCSchedulerModel.Group" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Teachers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Groups">
-              <PropertyRef Name="CuratorId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Lesson">
           <Key>
             <PropertyRef Name="Id" />
@@ -505,6 +435,80 @@
           <Property Type="Time" Name="EndTime" Nullable="false" Precision="7" />
           <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_Lessons" FromRole="Lesson" ToRole="GDCabinet" />
         </EntityType>
+        <EntityType Name="LessonType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_LessonTypes" FromRole="LessonType" ToRole="GDCabinet" />
+          <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_LessonTypes" FromRole="LessonType" ToRole="GDTeacher" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="principal_id" Nullable="false" />
+          <Property Type="Int32" Name="diagram_id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="version" />
+          <Property Type="Binary" Name="definition" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="MiddleName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="LastName" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_Teachers" FromRole="Teacher" ToRole="GDTeacher" />
+          <NavigationProperty Name="Groups" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Teacher" ToRole="Group" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_GroupDisciplines_AcademicDisciplines">
+          <End Type="MSHRCSchedulerModel.AcademicDiscipline" Role="AcademicDiscipline" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AcademicDiscipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupDiscipline">
+              <PropertyRef Name="DisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDCabinets_Cabinets">
+          <End Type="MSHRCSchedulerModel.Cabinet" Role="Cabinet" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cabinet">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDCabinet">
+              <PropertyRef Name="CabinetId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDCabinets_GroupDisciplines">
+          <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupDiscipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDCabinet">
+              <PropertyRef Name="GDId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GDCabinets_Lessons">
           <End Type="MSHRCSchedulerModel.Lesson" Role="Lesson" Multiplicity="1" />
           <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
@@ -517,7 +521,91 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_GDCabinets_LessonTypes">
+          <End Type="MSHRCSchedulerModel.LessonType" Role="LessonType" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDCabinet">
+              <PropertyRef Name="LessonTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDCabinets_SubstituteGroupDisciplines">
+          <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="0..1" />
+          <End Type="MSHRCSchedulerModel.GDCabinet" Role="GDCabinet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupDiscipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDCabinet">
+              <PropertyRef Name="SubstituteDGId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDTeachers_GroupDisciplines">
+          <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDTeacher" Role="GDTeacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupDiscipline">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDTeacher">
+              <PropertyRef Name="GroupDisciplineId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDTeachers_LessonTypes">
+          <End Type="MSHRCSchedulerModel.LessonType" Role="LessonType" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDTeacher" Role="GDTeacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LessonType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDTeacher">
+              <PropertyRef Name="LessonTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GDTeachers_Teachers">
+          <End Type="MSHRCSchedulerModel.Teacher" Role="Teacher" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GDTeacher" Role="GDTeacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GDTeacher">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupDisciplines_Groups">
+          <End Type="MSHRCSchedulerModel.Group" Role="Group" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="GroupDiscipline">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Groups_Teachers">
+          <End Type="MSHRCSchedulerModel.Teacher" Role="Teacher" Multiplicity="1" />
+          <End Type="MSHRCSchedulerModel.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="CuratorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -526,89 +614,61 @@
           <EntitySetMapping Name="AcademicDisciplines">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.AcademicDiscipline">
               <MappingFragment StoreEntitySet="AcademicDisciplines">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Cabinets">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.Cabinet">
               <MappingFragment StoreEntitySet="Cabinets">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GDCabinets">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.GDCabinet">
               <MappingFragment StoreEntitySet="GDCabinets">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="GDId" ColumnName="GDId" />
-                <ScalarProperty Name="CabinetId" ColumnName="CabinetId" />
-                <ScalarProperty Name="LessonId" ColumnName="LessonId" />
-                <ScalarProperty Name="SubstituteTeacherId" ColumnName="SubstituteTeacherId" />
+                <ScalarProperty Name="LessonTypeId" ColumnName="LessonTypeId" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="SubstituteDGId" ColumnName="SubstituteDGId" />
+                <ScalarProperty Name="LessonId" ColumnName="LessonId" />
+                <ScalarProperty Name="CabinetId" ColumnName="CabinetId" />
+                <ScalarProperty Name="GDId" ColumnName="GDId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GDTeachers">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.GDTeacher">
               <MappingFragment StoreEntitySet="GDTeachers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="GroupDisciplineId" ColumnName="GroupDisciplineId" />
+                <ScalarProperty Name="LessonTypeId" ColumnName="LessonTypeId" />
+                <ScalarProperty Name="InitialHoursNumber" ColumnName="InitialHoursNumber" />
+                <ScalarProperty Name="ActualHoursNumber" ColumnName="ActualHoursNumber" />
                 <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+                <ScalarProperty Name="GroupDisciplineId" ColumnName="GroupDisciplineId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="GroupDisciplines">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.GroupDiscipline">
               <MappingFragment StoreEntitySet="GroupDisciplines">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
                 <ScalarProperty Name="DisciplineId" ColumnName="DisciplineId" />
-                <ScalarProperty Name="InitialHoursNumber" ColumnName="InitialHoursNumber" />
-                <ScalarProperty Name="ActualHoursNumber" ColumnName="ActualHoursNumber" />
+                <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Groups">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.Group">
               <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="PeopleCount" ColumnName="PeopleCount" />
                 <ScalarProperty Name="CuratorId" ColumnName="CuratorId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="MSHRCSchedulerModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Teachers">
-            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Teacher">
-              <MappingFragment StoreEntitySet="Teachers">
+                <ScalarProperty Name="PeopleCount" ColumnName="PeopleCount" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Users">
-            <EntityTypeMapping TypeName="MSHRCSchedulerModel.User">
-              <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -617,6 +677,44 @@
               <MappingFragment StoreEntitySet="Lessons">
                 <ScalarProperty Name="EndTime" ColumnName="EndTime" />
                 <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LessonTypes">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.LessonType">
+              <MappingFragment StoreEntitySet="LessonTypes">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Teacher">
+              <MappingFragment StoreEntitySet="Teachers">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -16,7 +16,6 @@ namespace MSHRCS.BusinessLogic.DataModel
     {
         public Teacher()
         {
-            this.GDCabinets = new HashSet<GDCabinet>();
             this.GDTeachers = new HashSet<GDTeacher>();
             this.Groups = new HashSet<Group>();
         }
@@ -26,7 +25,6 @@ namespace MSHRCS.BusinessLogic.DataModel
         public string MiddleName { get; set; }
         public string LastName { get; set; }
     
-        public virtual ICollection<GDCabinet> GDCabinets { get; set; }
         public virtual ICollection<GDTeacher> GDTeachers { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
     }

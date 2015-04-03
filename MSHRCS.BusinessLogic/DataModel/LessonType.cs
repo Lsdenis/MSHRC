@@ -12,17 +12,18 @@ namespace MSHRCS.BusinessLogic.DataModel
     using System;
     using System.Collections.Generic;
     
-    public partial class GDTeacher
+    public partial class LessonType
     {
-        public int Id { get; set; }
-        public int GroupDisciplineId { get; set; }
-        public int TeacherId { get; set; }
-        public int ActualHoursNumber { get; set; }
-        public int InitialHoursNumber { get; set; }
-        public int LessonTypeId { get; set; }
+        public LessonType()
+        {
+            this.GDCabinets = new HashSet<GDCabinet>();
+            this.GDTeachers = new HashSet<GDTeacher>();
+        }
     
-        public virtual GroupDiscipline GroupDiscipline { get; set; }
-        public virtual LessonType LessonType { get; set; }
-        public virtual Teacher Teacher { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<GDCabinet> GDCabinets { get; set; }
+        public virtual ICollection<GDTeacher> GDTeachers { get; set; }
     }
 }
