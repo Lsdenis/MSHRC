@@ -1,14 +1,32 @@
 ﻿<div>
     <nav class="navbar navbar-default">
         <div class="container-fluid">
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <p class="navbar-text">Расписание МГВРК</p>
+                    <li>@Html.ActionLink("Расписание МГВРК", "Index", "Home")</li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Редактирование <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Предметы", "Index", "AcademicDisciplines")</li>
+                                <li><a href="#">Преподаватели</a></li>
+                                <li><a href="#">Кабинеты</a></li>
+                                <li><a href="#">Группы</a></li>
+                            </ul>
+                        </li>
+                    }
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Войти", "LogIn", "User")</li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li class="navbar-text">Добро пожаловать, @Context.User.Identity.Name!</li>
+                        <li>@Html.ActionLink("Выйти", "LogOut", "User")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Войти", "LogIn", "User")</li>
+                    }
                 </ul>
             </div>
         </div>

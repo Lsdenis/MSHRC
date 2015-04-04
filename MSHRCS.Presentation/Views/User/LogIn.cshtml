@@ -1,6 +1,5 @@
 ﻿@using MSHRCS.BusinessLogic.DataModel
 @using MSHRCS.Presentation.Helpers
-@using MSHRCS.Presentation.Models
 @model MSHRCS.Presentation.Models.LogInUserViewModel
 @{
     ViewBag.Title = "Вход";
@@ -8,6 +7,9 @@
 }
 
 <div class="login-margin">
+    <div class="hidden" id="hiddenErrorMessageDiv">
+        <p class="text-color-red"></p>
+    </div>
     <form id="logInUserForm" role="form">
         <div class="form-inline">
             <label for="userSelector">Учетная запись</label>
@@ -20,19 +22,16 @@
         </div>
         <div class="form-inline">
             @Html.LabelFor(model => model.Password)
-            @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
+            @Html.PasswordFor(model => model.Password, new {@class = "form-control"})
             @Html.ValidationMessageFor(model => model.Password)
         </div>
 
         <div class="form-inline">
             @Html.LabelFor(model => model.RememberMe)
             @Html.CheckBoxForJson(model => model.RememberMe)
-            @*            <input type="checkbox" class="checkbox" name="RememberMe"/>*@
-            @*                        @Html.CheckBoxFor(model => model.RememberMe, new { @class = "checkbox" })*@
-            @*            @Html.CheckBox("RememberMe", false)*@
         </div>
         <div>
-            <button type="submit" id="logInButton" class="btn btn-primary">Войти</button>
+            <button type="button" id="logInButton" class="btn btn-primary">Войти</button>
         </div>
     </form>
 </div>

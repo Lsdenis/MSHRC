@@ -32,7 +32,7 @@ namespace MSHRCS.Presentation.Controllers
 		{
 			if (!ModelState.IsValid)
 			{
-				return Json(new {success = false, message = Constants.ErrorMessage});
+				return Json(new { success = false, message = Constants.ErrorMessage });
 			}
 
 			var password = AuthorizationHelper.GetHashString(logInUserViewModel.Password);
@@ -40,12 +40,21 @@ namespace MSHRCS.Presentation.Controllers
 
 			if (user == null)
 			{
-				return Json(new { success = false });
+				return Json(new { success = false, message = "Неправильный пароль!" });
 			}
-				
-			FormsAuthentication.SetAuthCookie(user.Id.ToString(), logInUserViewModel.RememberMe);
+
+			FormsAuthentication.SetAuthCookie(user.Name, logInUserViewModel.RememberMe);
 			GlobalStoreHelper.SetSession(user);
-			return Json(new { success = true });
+
+			return Json(new { success = true, nextPage = Url.Action("Index", "Home") }, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult LogOut()
+		{
+			FormsAuthentication.SignOut();
+			Session[Constants.SessionKeyUser] = null;
+
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

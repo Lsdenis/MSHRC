@@ -8,5 +8,6 @@ namespace MSHRCS.BusinessLogic.Services.Interfaces
 		User CheckUserExists(int userId, string password);
 		User Get(int userEnum);
 		IEnumerable<User> GetAll();
+		User Get(string userName);
 	}
 }

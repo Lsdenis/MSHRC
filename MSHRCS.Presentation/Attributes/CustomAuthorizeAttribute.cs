@@ -20,14 +20,14 @@ namespace MSHRCS.Presentation.Attributes
 				throw new ArgumentNullException("httpContext");
 			}
 
-			if (httpContext.User == null)
+			if (httpContext.User == null || !httpContext.User.Identity.IsAuthenticated)
 			{
 				return false;
 			}
 
 			if (httpContext.Session == null || !(httpContext.Session[Constants.SessionKeyUser] is User))
 			{
-				GlobalStoreHelper.SetSession(int.Parse(httpContext.User.Identity.Name));
+				GlobalStoreHelper.SetSession(httpContext.User.Identity.Name);
 			}
 
 			var user = httpContext.Session[Constants.SessionKeyUser] as User;

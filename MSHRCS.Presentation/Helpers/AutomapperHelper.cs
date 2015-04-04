@@ -1,4 +1,7 @@
-﻿using MSHRCS.BusinessLogic.Services;
+﻿using AutoMapper;
+using MSHRCS.BusinessLogic.DataModel;
+using MSHRCS.BusinessLogic.Services;
+using MSHRCS.Presentation.Models;
 
 namespace MSHRCS.Presentation.Helpers
 {
@@ -6,6 +9,13 @@ namespace MSHRCS.Presentation.Helpers
 	{
 		public static void InitAutomapper()
 		{
+			InitAcademicDisciplineMappers();
+		}
+
+		private static void InitAcademicDisciplineMappers()
+		{
+			Mapper.CreateMap<AcademicDiscipline, AcademicDisciplineViewModel>();
+			Mapper.CreateMap<AcademicDisciplineViewModel, AcademicDiscipline>();
 		}
 	}
 }

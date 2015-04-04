@@ -3,24 +3,37 @@
 });
 
 function initButtonClick() {
-	$("#logInButton").click(function () {
+	$("#logInButton").click(function (e) {
+		e.preventDefault();
+
 		var $form = $("#logInUserForm");
 		var formData = $form.serialize();
 
-		//		var $roleId = $("#userSelector").val();
-		//		var $password = $("#Password").val();
-		var $rememberMe = $("#RememberMe").val();
+		var $password = $("#Password").val();
 
-		$.ajax({
-			method: "post",
-			url: logIn,
-			dataType: "json",
-			data: formData,
-			success: function (response) {
-				if (response.success) {
-//					drawPriceForMail(response.data);
+		if (!$password) {
+			showError("Пароль не должен быть пустым!");
+		} else {
+			$.ajax({
+				method: "post",
+				url: logIn,
+				dataType: "json",
+				data: formData,
+				success: function (response) {
+					if (response.success) {
+						window.location.href = response.nextPage;
+					} else {
+						showError(response.message);
+					}
 				}
-			},
-		});
+			});
+		}
+
+
 	});
+}
+
+function showError(text) {
+	$("#hiddenErrorMessageDiv").removeClass("hidden");
+	$("#hiddenErrorMessageDiv p").text(text);
 }

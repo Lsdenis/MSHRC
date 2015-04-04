@@ -1,3 +1,32 @@
 ﻿.login-margin div{
     margin: 1em;
 }
+
+.text-color-red {
+    color: red;
+}
+
+.new-discipline-table .field-name{
+    width: 8em;
+}
+
+.new-discipline-table .field-value {
+    width: 15em;
+    padding: 0.3em;
+}
+
+.new-discipline-table .field-validation-error {
+    padding: 0 1em;
+}
+
+.new-discipline-table tr{
+    margin-top: 0.5em;
+}
+
+.margin-top {
+    margin-top: 1em;
+}
+
+.margin-bottom {
+    margin-bottom: 1em;
+}

@@ -43,5 +43,10 @@ namespace MSHRCS.Presentation
 			RegisterGlobalFilters(GlobalFilters.Filters);
 			RegisterRoutes(RouteTable.Routes);
 		}
+
+		protected void Application_Error(object sender, EventArgs e)
+		{
+			var ex = Server.GetLastError();
+		}
 	}
 }

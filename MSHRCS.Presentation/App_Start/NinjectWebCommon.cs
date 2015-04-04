@@ -69,6 +69,9 @@ namespace MSHRCS.Presentation
 		/// <param name="kernel">The kernel.</param>
 		private static void RegisterServices(IKernel kernel)
 		{
+			kernel.Bind<MSHRCSchedulerContext>().ToSelf().InRequestScope();
+			kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
+
 			kernel.Bind<IRepository<AcademicDiscipline>>().To<BaseRepository<AcademicDiscipline>>().InRequestScope();
 			kernel.Bind<IRepository<Cabinet>>().To<BaseRepository<Cabinet>>().InRequestScope();
 			kernel.Bind<IRepository<GDCabinet>>().To<BaseRepository<GDCabinet>>().InRequestScope();
@@ -79,9 +82,6 @@ namespace MSHRCS.Presentation
 			kernel.Bind<IRepository<Teacher>>().To<BaseRepository<Teacher>>().InRequestScope();
 			kernel.Bind<IRepository<User>>().To<BaseRepository<User>>().InRequestScope();
 
-			kernel.Bind<IUnitOfWork>().To<UnitOfWork>().InRequestScope();
-			kernel.Bind<MSHRCSchedulerContext>().ToSelf().InRequestScope();
-
 			kernel.Bind<IAcademicDisciplineService>().To<AcademicDisciplineService>().InRequestScope();
 			kernel.Bind<ICabinetService>().To<CabinetService>().InRequestScope();
 			kernel.Bind<IGDCabinetService>().To<GDCabinetService>().InRequestScope();
@@ -90,7 +90,7 @@ namespace MSHRCS.Presentation
 			kernel.Bind<IGroupService>().To<GroupService>().InRequestScope();
 			kernel.Bind<ILessonService>().To<LessonsService>().InRequestScope();
 			kernel.Bind<ITeacherService>().To<TeacherService>().InRequestScope();
-			kernel.Bind<IUserService>().To<UserService>();
+			kernel.Bind<IUserService>().To<UserService>().InRequestScope();
 		}
 	}
 }

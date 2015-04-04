@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using MSHRCS.BusinessLogic.DataModel;
 using MSHRCS.BusinessLogic.Repository;
 using MSHRCS.BusinessLogic.Services.Interfaces;
@@ -22,12 +23,17 @@ namespace MSHRCS.BusinessLogic.Services.Classes
 
 		public User Get(int userEnum)
 		{
-			return _userRepository.Get(user => user.Id == userEnum);
+			return _userRepository.GetAll().First(user => user.Id == userEnum);
 		}
 
 		public IEnumerable<User> GetAll()
 		{
 			return _userRepository.GetAll();
+		}
+
+		public User Get(string userName)
+		{
+			return _userRepository.GetAll().First(user => user.Name == userName);
 		}
 	}
 }

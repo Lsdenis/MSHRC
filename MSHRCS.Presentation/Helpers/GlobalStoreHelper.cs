@@ -25,5 +25,11 @@ namespace MSHRCS.Presentation.Helpers
 		{
 			HttpContext.Current.Session[Constants.SessionKeyUser] = user;
 		}
+
+		public static void SetSession(string userName)
+		{
+			var user = _userService.Get(userName);
+			HttpContext.Current.Session[Constants.SessionKeyUser] = user;
+		}
 	}
 }
