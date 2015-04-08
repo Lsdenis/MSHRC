@@ -1,4 +1,4 @@
-﻿.login-margin div{
+﻿.login-margin div {
     margin: 1em;
 }
 
@@ -6,7 +6,7 @@
     color: red;
 }
 
-.new-discipline-table .field-name{
+.new-discipline-table .field-name {
     width: 8em;
 }
 
@@ -19,7 +19,7 @@
     padding: 0 1em;
 }
 
-.new-discipline-table tr{
+.new-discipline-table tr {
     margin-top: 0.5em;
 }
 
@@ -29,4 +29,44 @@
 
 .margin-bottom {
     margin-bottom: 1em;
+}
+
+.div-padding div {
+    padding: 0 0.3em;
+}
+
+.table-group-width {
+    width: 6em;
+}
+
+.table-time-width {
+    width: 8em;
+}
+
+.table-teacher-width {
+    width: 12em;
+}
+
+.table-cabinet-width {
+    width: 6em;
+}
+
+.table-discipline-width {
+    width: 17em;
+}
+
+.table-hours-width {
+    width: 3em;
+}
+
+.table-sign-width {
+}
+
+.table-maegin-left {
+    margin-left: 0.3em;
+}
+
+.general-table-row-data > td{
+    text-align: center;
+    vertical-align: middle !important;
 }

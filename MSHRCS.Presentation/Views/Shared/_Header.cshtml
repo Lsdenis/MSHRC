@@ -7,6 +7,16 @@
                     @if (Context.User.Identity.IsAuthenticated)
                     {
                         <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Таблицы <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li>@Html.ActionLink("Главная таблица", "GeneralTable", "Tables")</li>
+                                <li>@Html.ActionLink("Допонительная таблица", "AdditionalTable", "Tables")</li>
+                            </ul>
+                        </li>
+                    }
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Редактирование <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li>@Html.ActionLink("Предметы", "Index", "AcademicDisciplines")</li>

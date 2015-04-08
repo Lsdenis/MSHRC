@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MSHRCS.BusinessLogic.DataModel;
-using MSHRCS.BusinessLogic.Services;
 using MSHRCS.Presentation.Models;
 
 namespace MSHRCS.Presentation.Helpers

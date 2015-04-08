@@ -113,7 +113,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="int" Nullable="false" />
+          <Property Name="Code" Type="nvarchar(max)" Nullable="false" />
           <Property Name="PeopleCount" Type="int" Nullable="false" />
           <Property Name="CuratorId" Type="int" Nullable="false" />
         </EntityType>
@@ -302,7 +302,6 @@
           <EntitySet Name="GDCabinets" EntityType="MSHRCSchedulerModel.GDCabinet" />
           <EntitySet Name="GDTeachers" EntityType="MSHRCSchedulerModel.GDTeacher" />
           <EntitySet Name="GroupDisciplines" EntityType="MSHRCSchedulerModel.GroupDiscipline" />
-          <EntitySet Name="Groups" EntityType="MSHRCSchedulerModel.Group" />
           <EntitySet Name="Lessons" EntityType="MSHRCSchedulerModel.Lesson" />
           <EntitySet Name="LessonTypes" EntityType="MSHRCSchedulerModel.LessonType" />
           <EntitySet Name="sysdiagrams" EntityType="MSHRCSchedulerModel.sysdiagram" />
@@ -344,6 +343,7 @@
             <End Role="Teacher" EntitySet="Teachers" />
             <End Role="GDTeacher" EntitySet="GDTeachers" />
           </AssociationSet>
+          <EntitySet Name="Groups" EntityType="MSHRCSchedulerModel.Group" />
           <AssociationSet Name="FK_GroupDisciplines_Groups" Association="MSHRCSchedulerModel.FK_GroupDisciplines_Groups">
             <End Role="Group" EntitySet="Groups" />
             <End Role="GroupDiscipline" EntitySet="GroupDisciplines" />
@@ -352,7 +352,7 @@
             <End Role="Teacher" EntitySet="Teachers" />
             <End Role="Group" EntitySet="Groups" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
         <EntityType Name="AcademicDiscipline">
           <Key>
             <PropertyRef Name="Id" />
@@ -413,17 +413,6 @@
           <NavigationProperty Name="SubstitutingGDCabinets" Relationship="MSHRCSchedulerModel.FK_GDCabinets_SubstituteGroupDisciplines" FromRole="GroupDiscipline" ToRole="GDCabinet" />
           <NavigationProperty Name="GDTeachers" Relationship="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" FromRole="GroupDiscipline" ToRole="GDTeacher" />
           <NavigationProperty Name="Group" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="GroupDiscipline" ToRole="Group" />
-        </EntityType>
-        <EntityType Name="Group">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="Code" Nullable="false" />
-          <Property Type="Int32" Name="PeopleCount" Nullable="false" />
-          <Property Type="Int32" Name="CuratorId" Nullable="false" />
-          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="Group" ToRole="GroupDiscipline" />
-          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Group" ToRole="Teacher" />
         </EntityType>
         <EntityType Name="Lesson">
           <Key>
@@ -581,6 +570,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="PeopleCount" Nullable="false" />
+          <Property Type="Int32" Name="CuratorId" Nullable="false" />
+          <NavigationProperty Name="GroupDisciplines" Relationship="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" FromRole="Group" ToRole="GroupDiscipline" />
+          <NavigationProperty Name="Teacher" Relationship="MSHRCSchedulerModel.FK_Groups_Teachers" FromRole="Group" ToRole="Teacher" />
+        </EntityType>
         <Association Name="FK_GroupDisciplines_Groups">
           <End Type="MSHRCSchedulerModel.Group" Role="Group" Multiplicity="1" />
           <End Type="MSHRCSchedulerModel.GroupDiscipline" Role="GroupDiscipline" Multiplicity="*" />
@@ -662,16 +662,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Groups">
-            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Group">
-              <MappingFragment StoreEntitySet="Groups">
-                <ScalarProperty Name="CuratorId" ColumnName="CuratorId" />
-                <ScalarProperty Name="PeopleCount" ColumnName="PeopleCount" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Lessons">
             <EntityTypeMapping TypeName="MSHRCSchedulerModel.Lesson">
               <MappingFragment StoreEntitySet="Lessons">
@@ -716,6 +706,16 @@
               <MappingFragment StoreEntitySet="Users">
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Groups">
+            <EntityTypeMapping TypeName="MSHRCSchedulerModel.Group">
+              <MappingFragment StoreEntitySet="Groups">
+                <ScalarProperty Name="CuratorId" ColumnName="CuratorId" />
+                <ScalarProperty Name="PeopleCount" ColumnName="PeopleCount" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

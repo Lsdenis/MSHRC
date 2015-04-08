@@ -4,5 +4,6 @@
 	{
 		public const string ErrorMessage = "Ошибка!";
 		public const string SessionKeyUser = "UserSessionKey";
+		public const int PageSize = 25;
 	}
 }

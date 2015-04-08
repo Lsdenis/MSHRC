@@ -10,7 +10,6 @@
         <EntityTypeShape EntityType="MSHRCSchedulerModel.GDCabinet" Width="1.5" PointX="7.5" PointY="6.75" />
         <EntityTypeShape EntityType="MSHRCSchedulerModel.GDTeacher" Width="1.5" PointX="3" PointY="3.5" />
         <EntityTypeShape EntityType="MSHRCSchedulerModel.GroupDiscipline" Width="1.5" PointX="5.25" PointY="7.125" />
-        <EntityTypeShape EntityType="MSHRCSchedulerModel.Group" Width="1.5" PointX="3" PointY="7.375" />
         <EntityTypeShape EntityType="MSHRCSchedulerModel.Lesson" Width="1.5" PointX="5.25" PointY="10.625" />
         <EntityTypeShape EntityType="MSHRCSchedulerModel.LessonType" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="MSHRCSchedulerModel.sysdiagram" Width="1.5" PointX="5.75" PointY="1.125" />
@@ -25,9 +24,10 @@
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GDTeachers_GroupDisciplines" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GDTeachers_LessonTypes" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GDTeachers_Teachers" />
+        <EntityTypeShape EntityType="MSHRCSchedulerModel.Group" Width="1.5" PointX="3" PointY="7.375" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_GroupDisciplines_Groups" />
         <AssociationConnector Association="MSHRCSchedulerModel.FK_Groups_Teachers" />
-      </Diagram>
+        </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

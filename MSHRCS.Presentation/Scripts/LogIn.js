@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
-	initButtonClick();
+	initLogInButtonClick();
 });
 
-function initButtonClick() {
+function initLogInButtonClick() {
 	$("#logInButton").click(function (e) {
 		e.preventDefault();
 

@@ -19,9 +19,9 @@ namespace MSHRCS.BusinessLogic.DataModel
             this.GroupDisciplines = new HashSet<GroupDiscipline>();
         }
     
-			public int Id { get; set; }
-			public string Code { get; set; }
-			public string Description { get; set; }
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public string Description { get; set; }
     
         public virtual ICollection<GroupDiscipline> GroupDisciplines { get; set; }
     }

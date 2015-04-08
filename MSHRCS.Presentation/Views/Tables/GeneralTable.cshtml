@@ -1,0 +1,41 @@
+﻿@model MSHRCS.Presentation.Models.GeneralTableViewModel
+@{
+    ViewBag.Title = "Главная таблица";
+}
+<div class="col-md-10 col-md-offset-1">
+    <div class="clearfix div-padding">
+        <div class="pull-left table-group-width">
+            <label for="group">Группа</label>
+            <br />
+            <input type="text" id="group" class="form-control" />
+        </div>
+        <div class="pull-left table-time-width">
+            <label for="time">Время</label>
+            <select id="time" class="form-control">
+                <option value="0" selected="selected">Пусто</option>
+                <option value="1">1 пара</option>
+                <option value="2">2 пара</option>
+                <option value="3">3 пара</option>
+                <option value="4">4 пара</option>
+                <option value="5">5 пара</option>
+            </select>
+        </div>
+        <div class="pull-left table-teacher-width">
+            <label for="teacher">Преподаватель</label>
+            <input type="text" id="teacher" class="form-control" />
+        </div>
+        <div class="pull-left table-cabinet-width">
+            <label for="cabinet">Кабинет</label>
+            <input type="text" id="cabinet" class="form-control" />
+        </div>
+        <div class="pull-left table-discipline-width">
+            <label for="discipline">Предмет</label>
+            <input type="text" id="discipline" class="form-control" />
+        </div>
+    </div>
+    <div class="margin-top table-maegin-left">
+        <button id="filter" class="btn btn-primary media-bottom">Фильтровать</button>
+    </div>
+    @Html.Partial("GetGeneralTableData", Model)
+</div>
+<script src="@Url.Content("~/Scripts/GeneralTable.js")" type="text/javascript"></script>

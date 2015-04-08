@@ -1,0 +1,48 @@
+﻿@using MSHRCS.BusinessLogic
+@using MSHRCS.BusinessLogic.DTO
+@using PagedList.Mvc
+@model MSHRCS.Presentation.Models.GeneralTableViewModel
+<div id="tableDiv" class="margin-top">
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr class="media-middle text-center">
+				<td class="table-group-width">Группа</td>
+				<td class="table-time-width">Время</td>
+				<td class="table-teacher-width">Преподаватель</td>
+				<td class="table-cabinet-width">Кабинет</td>
+				<td class="table-discipline-width">Предмет</td>
+				<td class="table-hours-width">Часы</td>
+				<td class="table-sign-width">Подпись</td>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (GeneralTableRowValue generalTableRowValue in Model.RowValues)
+   {
+				<tr class="general-table-row-data">
+					<td>@generalTableRowValue.Group</td>
+					<td>@generalTableRowValue.Time</td>
+					<td>@generalTableRowValue.Teacher</td>
+					<td>@generalTableRowValue.Cabinet</td>
+					<td>@generalTableRowValue.AcademicDiscipline</td>
+					<td>@generalTableRowValue.Hours</td>
+					<td></td>
+				</tr>
+   }
+		</tbody>
+
+	</table>
+	<div id="myPager">
+		@if (Model.RowValues.Count > Constants.PageSize)
+		{
+			Html.PagedListPager(Model.RowValues, page => Url.Action("GetGeneralTableData", "Tables", new
+			{
+				group = Model.Group,
+				timeId = Model.TimeId,
+				teacher = Model.Teacher,
+				cabinet = Model.Cabinet,
+				discipline = Model.Discipline,
+				page
+			}), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(PagedListRenderOptions.PageNumbersOnly, "#tableDiv"));
+		}
+	</div>
+</div>
