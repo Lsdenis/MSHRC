@@ -1,39 +1,36 @@
-﻿@model IEnumerable<MSHRCS.BusinessLogic.DataModel.GroupDiscipline>
-
+﻿@model IEnumerable<MSHRCS.Presentation.Models.GroupDisciplineViewModel>
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Дисциплины в группах";
 }
 
-<h2>Index</h2>
+<h2>Дисциплины в группах</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+	@Html.ActionLink("Создать", "Create", "GroupDiscipline", new { @class = "btn btn-primary" })
 </p>
-<table>
-    <tr>
-        <th>
-            Group
-        </th>
-        <th>
-            AcademicDiscipline
-        </th>
-        <th></th>
-    </tr>
+<table class="table table-bordered table-striped">
+	<tr>
+		<th>Группа
+		</th>
+		<th>Дисциплина
+		</th>
+		<th></th>
+	</tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Group.Code)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AcademicDiscipline.Code)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+	@foreach (var item in Model)
+ {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Group)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.AcademicDiscipline)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+			</td>
+		</tr>
+ }
 
 </table>

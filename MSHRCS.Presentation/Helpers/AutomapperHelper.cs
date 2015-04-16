@@ -9,6 +9,18 @@ namespace MSHRCS.Presentation.Helpers
 		public static void InitAutomapper()
 		{
 			InitAcademicDisciplineMappers();
+			InitGroupDisciplineMappers();
+			InitTeacherMappers();
+		}
+
+		private static void InitTeacherMappers()
+		{
+			Mapper.CreateMap<Teacher, TeacherViewModel>();
+		}
+
+		private static void InitGroupDisciplineMappers()
+		{
+			Mapper.CreateMap<Group, GroupViewModel>();
 		}
 
 		private static void InitAcademicDisciplineMappers()

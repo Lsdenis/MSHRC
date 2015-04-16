@@ -6,20 +6,20 @@
     color: red;
 }
 
-.new-discipline-table .field-name {
+.new-object-table .field-name {
     width: 8em;
 }
 
-.new-discipline-table .field-value {
+.new-object-table .field-value {
     width: 15em;
     padding: 0.3em;
 }
 
-.new-discipline-table .field-validation-error {
+.new-object-table .field-validation-error {
     padding: 0 1em;
 }
 
-.new-discipline-table tr {
+.new-object-table tr {
     margin-top: 0.5em;
 }
 
@@ -62,11 +62,26 @@
 .table-sign-width {
 }
 
-.table-maegin-left {
+.table-margin-left {
     margin-left: 0.3em;
 }
 
-.general-table-row-data > td{
+.general-table-row-data > td {
     text-align: center;
     vertical-align: middle !important;
+}
+
+.new-object-table .field-hours {
+    width: 4.3em;
+    padding: 0.3em;
+
+}
+
+.new-object-table .field-lesson-type {
+    width: 15.5em;
+    padding: 0.3em;
+}
+
+.typeahed-teacher-id {
+    
 }

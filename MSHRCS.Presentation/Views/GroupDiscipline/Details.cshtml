@@ -1,25 +1,24 @@
-﻿@model MSHRCS.BusinessLogic.DataModel.GroupDiscipline
-
+﻿@model MSHRCS.Presentation.Models.GroupDisciplineViewModel
 @{
-    ViewBag.Title = "Details";
+	ViewBag.Title = "Details";
 }
 
 <h2>Details</h2>
 
 <fieldset>
-    <legend>GroupDiscipline</legend>
+	<legend>GroupDiscipline</legend>
 
-    <div class="display-label">Group</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Group.Code)
-    </div>
+	<div class="display-label">Group</div>
+	<div class="display-field">
+		@Html.DisplayFor(model => model.Group)
+	</div>
 
-    <div class="display-label">AcademicDiscipline</div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.AcademicDiscipline.Code)
-    </div>
+	<div class="display-label">AcademicDiscipline</div>
+	<div class="display-field">
+		@Html.DisplayFor(model => model.AcademicDiscipline)
+	</div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+	@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

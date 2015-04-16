@@ -86,6 +86,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MSHRCSEntityModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="DataModel\Partials\Teacher.cs" />
     <Compile Include="DataModel\sysdiagram.cs">
       <DependentUpon>MSHRCSEntityModel.tt</DependentUpon>
     </Compile>

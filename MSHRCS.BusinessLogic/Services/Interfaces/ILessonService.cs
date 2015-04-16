@@ -6,5 +6,6 @@ namespace MSHRCS.BusinessLogic.Services.Interfaces
 	public interface ILessonService
 	{
 		IEnumerable<Lesson> GetLessons();
+		IEnumerable<LessonType> GetLessonTypes();
 	}
 }

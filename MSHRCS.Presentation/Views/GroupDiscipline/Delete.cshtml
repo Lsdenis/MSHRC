@@ -1,4 +1,4 @@
-﻿@model MSHRCS.BusinessLogic.DataModel.GroupDiscipline
+﻿@model MSHRCS.Presentation.Models.GroupDisciplineViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -12,12 +12,12 @@
 
     <div class="display-label">Group</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Group.Code)
+        @Html.DisplayFor(model => model.Group)
     </div>
 
     <div class="display-label">AcademicDiscipline</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.AcademicDiscipline.Code)
+        @Html.DisplayFor(model => model.AcademicDiscipline)
     </div>
 </fieldset>
 @using (Html.BeginForm()) {

@@ -1,33 +1,33 @@
 ﻿@model MSHRCS.Presentation.Models.AcademicDisciplineViewModel
 @{
-    ViewBag.Title = "Создание предмета";
+	ViewBag.Title = "Создание предмета";
 }
 <div class="col-md-6 col-md-offset-3">
-    @using (Html.BeginForm())
-    {
-        @Html.ValidationSummary(true)
+	@using (Html.BeginForm())
+ {
+		@Html.ValidationSummary(true)
 
-        <fieldset>
-            <legend>Новый предмет</legend>
-            <table class="new-discipline-table">
-                <tbody>
-                    <tr>
-                        <td class="field-name">@Html.LabelFor(model => model.Code)</td>
-                        <td class="field-value">@Html.TextBoxFor(model => model.Code, new { @class = "form-control" })</td>
-                        <td class="field-validation-error">@Html.ValidationMessageFor(model => model.Code)</td>
-                    </tr>
-                    <tr>
-                        <td class="field-name">@Html.LabelFor(model => model.Description)</td>
-                        <td class="field-value">@Html.TextBoxFor(model => model.Description, new { @class = "form-control" })</td>
-                        <td class="field-validation-error">@Html.ValidationMessageFor(model => model.Description)</td>
-                    </tr>
-                </tbody>
-            </table>
+		<fieldset>
+			<legend>Новый предмет</legend>
+			<table class="new-object-table">
+				<tbody>
+					<tr>
+						<td class="field-name">@Html.LabelFor(model => model.Code)</td>
+						<td class="field-value">@Html.TextBoxFor(model => model.Code, new { @class = "form-control" })</td>
+						<td class="field-validation-error">@Html.ValidationMessageFor(model => model.Code)</td>
+					</tr>
+					<tr>
+						<td class="field-name">@Html.LabelFor(model => model.Description)</td>
+						<td class="field-value">@Html.TextBoxFor(model => model.Description, new { @class = "form-control" })</td>
+						<td class="field-validation-error">@Html.ValidationMessageFor(model => model.Description)</td>
+					</tr>
+				</tbody>
+			</table>
 
-            <div class="margin-top">
-                @Html.ActionLink("Вернуться к списку", "Index", "AcademicDisciplines", new { @class = "btn btn-default" })
-                <input type="submit" value="Создать" class="btn btn-primary pull-right" />
-            </div>
-        </fieldset>
-    }
+			<div class="margin-top">
+				@Html.ActionLink("Вернуться к списку", "Index", "AcademicDisciplines", new { @class = "btn btn-default" })
+				<input type="submit" value="Создать" class="btn btn-primary pull-right" />
+			</div>
+		</fieldset>
+ }
 </div>

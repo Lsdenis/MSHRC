@@ -81,6 +81,7 @@ namespace MSHRCS.Presentation
 			kernel.Bind<IRepository<Lesson>>().To<BaseRepository<Lesson>>().InRequestScope();
 			kernel.Bind<IRepository<Teacher>>().To<BaseRepository<Teacher>>().InRequestScope();
 			kernel.Bind<IRepository<User>>().To<BaseRepository<User>>().InRequestScope();
+			kernel.Bind<IRepository<LessonType>>().To<BaseRepository<LessonType>>().InRequestScope();
 
 			kernel.Bind<IAcademicDisciplineService>().To<AcademicDisciplineService>().InRequestScope();
 			kernel.Bind<ICabinetService>().To<CabinetService>().InRequestScope();
