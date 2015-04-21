@@ -1,0 +1,45 @@
+﻿@model MSHRCS.BusinessLogic.DataModel.GDCabinet
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>GDCabinet</legend>
+
+    <div class="display-label">GroupDiscipline</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GroupDiscipline.Id)
+    </div>
+
+    <div class="display-label">Cabinet</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Cabinet.Id)
+    </div>
+
+    <div class="display-label">Lesson</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Lesson.Name)
+    </div>
+
+    <div class="display-label">SubstitutedGroupDiscipline</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SubstitutedGroupDiscipline.Id)
+    </div>
+
+    <div class="display-label">Date</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Date)
+    </div>
+
+    <div class="display-label">LessonType</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LessonType.Name)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

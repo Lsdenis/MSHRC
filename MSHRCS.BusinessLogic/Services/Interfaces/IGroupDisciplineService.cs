@@ -7,5 +7,6 @@ namespace MSHRCS.BusinessLogic.Services.Interfaces
 	{
 		IEnumerable<GroupDiscipline> GetAllGroupDisciplines();
 		void SaveOrUpdate(GroupDiscipline groupDiscipline);
+		void DeleteGroupDiscipline(int id);
 	}
 }

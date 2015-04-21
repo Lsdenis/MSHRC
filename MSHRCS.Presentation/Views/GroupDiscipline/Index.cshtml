@@ -1,36 +1,34 @@
-﻿@model IEnumerable<MSHRCS.Presentation.Models.GroupDisciplineViewModel>
+﻿@using MSHRCS.BusinessLogic
+@model IEnumerable<MSHRCS.Presentation.Models.GroupDisciplineViewModel>
 @{
 	ViewBag.Title = "Дисциплины в группах";
 }
 
-<h2>Дисциплины в группах</h2>
+<div class="col-md-10 col-md-offset-1">
+	@Html.ActionLink("Создать", "Create", "GroupDiscipline", new { @class = "btn btn-default margin-bottom" })
 
-<p>
-	@Html.ActionLink("Создать", "Create", "GroupDiscipline", new { @class = "btn btn-primary" })
-</p>
-<table class="table table-bordered table-striped">
-	<tr>
-		<th>Группа
-		</th>
-		<th>Дисциплина
-		</th>
-		<th></th>
-	</tr>
-
-	@foreach (var item in Model)
- {
+	<table class="table table-bordered table-striped">
 		<tr>
-			<td>
-				@Html.DisplayFor(modelItem => item.Group)
-			</td>
-			<td>
-				@Html.DisplayFor(modelItem => item.AcademicDiscipline)
-			</td>
-			<td>
-				@Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-			</td>
+			<th class="text-center">Группа
+			</th>
+			<th class="text-center">Предмет
+			</th>
+			<th class="text-center">Доступные действия</th>
 		</tr>
- }
 
-</table>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td class="text-center">
+					@Html.DisplayFor(modelItem => item.Group)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.AcademicDiscipline)
+				</td>
+				<td class="text-center">
+					@Html.ActionLink(Constants.Edit, "Edit", new {id = item.Id}) | @Html.ActionLink(Constants.Delete, "Delete", new {id = item.Id})
+				</td>
+			</tr>
+		}
+	</table>
+</div>

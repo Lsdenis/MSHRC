@@ -1,43 +1,68 @@
-﻿@model MSHRCS.Presentation.Models.GroupDisciplineViewModel
-
+﻿@using MSHRCS.BusinessLogic
+@using MSHRCS.Presentation.Models
+@model MSHRCS.Presentation.Models.GroupDisciplineViewModel
 @{
-    ViewBag.Title = "Edit";
+	ViewBag.Title = "Редактировать";
 }
 
-<h2>Edit</h2>
-
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-@*@using (Html.BeginForm()) {*@
-@*    @Html.ValidationSummary(true)*@
-@*    <fieldset>*@
-@*        <legend>GroupDiscipline</legend>*@
-@**@
-@*        @Html.HiddenFor(model => model.Id)*@
-@**@
-@*        <div class="editor-label">*@
-@*            @Html.LabelFor(model => model.GroupId, "Group")*@
-@*        </div>*@
-@*        <div class="editor-field">*@
-@*            @Html.DropDownList("GroupId", String.Empty)*@
-@*            @Html.ValidationMessageFor(model => model.GroupId)*@
-@*        </div>*@
-@**@
-@*        <div class="editor-label">*@
-@*            @Html.LabelFor(model => model.DisciplineId, "AcademicDiscipline")*@
-@*        </div>*@
-@*        <div class="editor-field">*@
-@*            @Html.DropDownList("DisciplineId", String.Empty)*@
-@*            @Html.ValidationMessageFor(model => model.DisciplineId)*@
-@*        </div>*@
-@**@
-@*        <p>*@
-@*            <input type="submit" value="Save" />*@
-@*        </p>*@
-@*    </fieldset>*@
-@*}*@
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<div class="col-md-8 col-md-offset-2">
+	@Html.HiddenFor(model => model.Id)
+	<fieldset>
+		<legend>Предмет в группе</legend>
+		<div>
+			<table class="new-object-table">
+				<tbody>
+				<tr>
+					<td class="field-name">@Html.LabelFor(model => model.Group)</td>
+					<td class="field-value">@Html.DisplayFor(model => model.Group)</td>
+				</tr>
+				<tr>
+					<td class="field-name">@Html.LabelFor(model => model.AcademicDiscipline)</td>
+					<td class="field-value">@Html.DisplayFor(model => model.AcademicDiscipline)</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="margin-top">
+			<table class="new-object-table table" id="teacherTable">
+				<thead>
+				<tr >
+					<td colspan="5" class="text-center padding-top-bottom"><b>Преподаватели</b></td>
+				</tr>
+				<tr class="margin-top">
+					<td class="text-center vertical-middle"><b>ФИО</b></td>
+					<td class="text-center vertical-middle"><b>Тип</b></td>
+					<td class="text-center vertical-middle"><b>Всего часов</b></td>
+					<td class="text-center vertical-middle"><b>Осталось часов</b></td>
+					<td class="vertical-middle">
+						<button class="btn btn-default" type="button">
+							<span class="glyphicon glyphicon-plus"></span></button>
+					</td>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach (var teacher in Model.Teachers)
+				{
+					<tr class="existed-teacher">
+						@Html.Hidden(Guid.NewGuid().ToString(), teacher.GroupDisciplineTeacherId, new {@class = "typeahed-teacher-id"})
+						<td class="field-value text-center vertical-middle">@teacher.FullName</td>
+						<td class="field-lesson-type text-center vertical-middle">@teacher.LessonType</td>
+						<td class="field-hours text-center vertical-middle">@teacher.InitialHoursNumber</td>
+						<td class="field-hours text-center vertical-middle">@teacher.ActualHoursNumber</td>
+						<td>
+							<button class="btn btn-danger" type="button">
+								<span class="glyphicon glyphicon-minus"></span></button>
+						</td>
+					</tr>
+				}
+				</tbody>
+			</table>
+		</div>
+		<div class="margin-top">
+			@Html.ActionLink("Назад к списку", "Index", "", new {@class = "btn btn-default"})
+			<input type="button" id="submit" value="Сохранить" class="btn btn-primary pull-right"/>
+		</div>
+	</fieldset>
 </div>
+
+<script src="@Url.Content("~/Scripts/editGroupDiscipline.js")" type="text/javascript"></script>

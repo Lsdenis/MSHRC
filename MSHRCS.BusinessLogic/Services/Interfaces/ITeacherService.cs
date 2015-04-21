@@ -7,5 +7,6 @@ namespace MSHRCS.BusinessLogic.Services.Interfaces
 	{
 		IEnumerable<Teacher> GetAllTeachers();
 		void SaveOrUpdateGDTeacher(GDTeacher teacher);
+		void SaveOrUpdateGDTeacher(List<GDTeacher> teachers, List<int> existedTeachers);
 	}
 }

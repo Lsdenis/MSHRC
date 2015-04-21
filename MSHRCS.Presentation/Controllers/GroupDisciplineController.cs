@@ -60,22 +60,22 @@ namespace MSHRCS.Presentation.Controllers
 		{
 			var groupdiscipline = _groupDisciplineService.GetAllGroupDisciplines().First(gd => gd.Id == id);
 			var groupDisciplineViewModel = Mapper.Map<GroupDiscipline, GroupDisciplineViewModel>(groupdiscipline);
-			ViewBag.GroupId = new SelectList(_groupService.GetAllGroups(), "Id", "Code", groupdiscipline.GroupId);
 			return View(groupDisciplineViewModel);
 		}
 
 		[HttpPost]
-		public ActionResult Edit(GroupDisciplineViewModel groupdiscipline)
+		public ActionResult Edit(int gdId, string exitsedIds, string gdTeachers)
 		{
-//			if (ModelState.IsValid)
-//			{
-//				db.Entry(groupdiscipline).State = EntityState.Modified;
-//				db.SaveChanges();
-//				return RedirectToAction("Index");
-//			}
-			ViewBag.DisciplineId = new SelectList(_academicDisciplineService.GetAll(), "Id", "Code");
-			ViewBag.GroupId = new SelectList(_groupService.GetAllGroups(), "Id", "Code");
-			return View(groupdiscipline);
+			var teachers = JsonConvert.DeserializeObject<List<GDTeacher>>(gdTeachers);
+			teachers.ForEach(t => t.GroupDisciplineId = gdId);
+
+			var existedTeachers = JsonConvert.DeserializeObject<List<int>>(exitsedIds);
+
+			_teacherService.SaveOrUpdateGDTeacher(teachers, existedTeachers);
+
+			_unitOfWork.Commit();
+
+			return Json(new { nextPage = Url.Action("Index") }, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult Delete(int id)
@@ -88,9 +88,8 @@ namespace MSHRCS.Presentation.Controllers
 		[HttpPost, ActionName("Delete")]
 		public ActionResult DeleteConfirmed(int id)
 		{
-//			GroupDiscipline groupdiscipline = db.GroupDisciplines.Find(id);
-//			db.GroupDisciplines.Remove(groupdiscipline);
-//			db.SaveChanges();
+			_groupDisciplineService.DeleteGroupDiscipline(id);
+			_unitOfWork.Commit();
 			return RedirectToAction("Index");
 		}
 

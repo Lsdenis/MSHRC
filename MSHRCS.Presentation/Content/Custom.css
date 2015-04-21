@@ -85,3 +85,11 @@
 .typeahed-teacher-id {
     
 }
+
+.padding-top-bottom {
+	padding: 0.5em 0;
+}
+
+.vertical-middle {
+	vertical-align: middle !important;
+}

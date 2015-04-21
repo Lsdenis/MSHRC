@@ -1,0 +1,55 @@
+﻿@using MSHRCS.BusinessLogic
+@model List<MSHRCS.Presentation.Models.GDCabinetViewModel>
+@{
+    ViewBag.Title = "Раписание";
+}
+
+<div class="col-md-12">
+    @Html.ActionLink("Добавить", "Create", "GDCabinet", new { @class = "btn btn-default margin-bottom" })
+
+    <table class="table">
+        <tr>
+            <th class="text-center">Предмет
+            </th>
+            <th class="text-center">Кабинет
+            </th>
+            <th class="text-center">Время
+            </th>
+            @*            <th>Замена?*@
+            @*            </th>*@
+            <th class="text-center">Дата
+            </th>
+            <th class="text-center">Тип урока
+            </th>
+            <th class="text-center">Доступные действия</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Discipline)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Cabinet)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Lesson)
+                </td>
+                @*                <td>*@
+                @*                    @Html.DisplayFor(modelItem => item.SubstitutedGroupDiscipline.Id)*@
+                @*                </td>*@
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.LessonType)
+                </td>
+                <td class="text-center">
+                    @Html.ActionLink(Constants.Edit, "Edit", new { id = item.Id }) |
+                @Html.ActionLink(Constants.Delete, "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

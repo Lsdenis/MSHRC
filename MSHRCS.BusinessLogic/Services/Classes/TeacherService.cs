@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using MSHRCS.BusinessLogic.DataModel;
 using MSHRCS.BusinessLogic.Repository;
 using MSHRCS.BusinessLogic.Services.Interfaces;
@@ -36,6 +37,24 @@ namespace MSHRCS.BusinessLogic.Services.Classes
 				var gdTeacher = _gdTeacherRepository.Get(t => t.Id == teacher.Id);
 				_unitOfWork.Context.Entry(gdTeacher).CurrentValues.SetValues(teacher);
 				_unitOfWork.Context.Entry(gdTeacher).State = EntityState.Modified;
+			}
+		}
+
+		public void SaveOrUpdateGDTeacher(List<GDTeacher> teachers, List<int> existedTeachers)
+		{
+			var gdId = teachers.First().GroupDisciplineId;
+			var notExisted =
+				_gdTeacherRepository.GetAll(
+					teacher => teacher.GroupDisciplineId == gdId && existedTeachers.All(id => id != teacher.Id));
+
+			foreach (var gdTeacher in notExisted)
+			{
+				_gdTeacherRepository.Delete(gdTeacher);
+			}
+
+			foreach (var teacher in teachers.Where(teacher => teacher.Id == 0).ToList())
+			{
+				_gdTeacherRepository.Add(teacher);
 			}
 		}
 	}

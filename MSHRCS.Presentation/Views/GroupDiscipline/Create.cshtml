@@ -29,7 +29,7 @@
             <table class="new-object-table" id="teacherTable">
                 <thead>
                     <tr>
-                        <td colspan="4" class="text-center"><b>Преподаватели</b></td>
+                        <td colspan="4" class="text-center padding-top-bottom"><b>Преподаватели</b></td>
                     </tr>
                     <tr class="margin-top">
                         <td class="text-center"><b>ФИО</b></td>
@@ -51,7 +51,7 @@
             </table>
         </div>
         <div class="margin-top">
-            @Html.ActionLink("Назад к списку", "Index", "GroupDiscipline", new { @class = "btn btn-default" })
+            @Html.ActionLink("Назад к списку", "Index", "", new { @class = "btn btn-default" })
             <input type="button" id="submit" value="Создать" class="btn btn-primary pull-right" />
         </div>
     </fieldset>

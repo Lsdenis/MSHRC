@@ -11,18 +11,23 @@ namespace MSHRCS.BusinessLogic.Services.Classes
 {
 	public class GDCabinetService : IGDCabinetService
 	{
-		private readonly IRepository<GDCabinet> _gDCabinetRepository;
+		private readonly IRepository<GDCabinet> _gdCabinetRepository;
+		private readonly IRepository<Cabinet> _cabinetRepository;
+		private readonly IRepository<Lesson> _lessonRepository;
 
-		public GDCabinetService(IRepository<GDCabinet> gDCabinetRepository)
+		public GDCabinetService(IRepository<GDCabinet> gdCabinetRepository, IRepository<Cabinet> cabinetRepository,
+			IRepository<Lesson> lessonRepository)
 		{
-			_gDCabinetRepository = gDCabinetRepository;
+			_gdCabinetRepository = gdCabinetRepository;
+			_cabinetRepository = cabinetRepository;
+			_lessonRepository = lessonRepository;
 		}
 
 		public IEnumerable<GeneralTableRowValue> GetGeneralTableRowValues(DateTime date)
 		{
 			var mainTableRowValues = new List<GeneralTableRowValue>();
 
-			var dgc = _gDCabinetRepository.GetAll().Where(cabinet => cabinet.Date.Date.Equals(date.Date));
+			var dgc = _gdCabinetRepository.GetAll().Where(cabinet => cabinet.Date.Date.Equals(date.Date));
 
 			foreach (var cabinet in dgc)
 			{
@@ -50,6 +55,37 @@ namespace MSHRCS.BusinessLogic.Services.Classes
 			}
 
 			return mainTableRowValues;
+		}
+
+		public IEnumerable<GDCabinet> GetAllGDCabinets()
+		{
+			return _gdCabinetRepository.GetAll();
+		}
+
+		public Dictionary<Lesson, List<Cabinet>> GetCabinetLessons(DateTime date)
+		{
+			var lessons = _lessonRepository.GetAll().ToList();
+			var cabinets = _cabinetRepository.GetAll().ToList();
+			var dictionary = new Dictionary<Lesson, List<Cabinet>>();
+
+			foreach (var lesson in lessons)
+			{
+				var list = new List<Cabinet>();
+
+				foreach (var cabinet in cabinets)
+				{
+					if (cabinet.GDCabinets.Any(gdCabinet => gdCabinet.Date.Date == date.Date && gdCabinet.LessonId == lesson.Id))
+					{
+						continue;
+					}
+
+					list.Add(cabinet);
+				}
+
+				dictionary.Add(lesson, list);
+			}
+
+			return dictionary;
 		}
 	}
 }
